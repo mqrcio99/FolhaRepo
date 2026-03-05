@@ -43,6 +43,6 @@ public class FuncionarioHorista extends Funcionario {
 
     @Override
     public double calcularPagamento() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        return horasTrabalhadas * valorHora;
+}
 }
