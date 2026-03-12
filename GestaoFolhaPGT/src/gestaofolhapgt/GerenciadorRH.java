@@ -3,33 +3,36 @@ package gestaofolhapgt;
 import java.util.ArrayList;
 
 public class GerenciadorRH {
+
     private ArrayList<Funcionario> funcionarios;
-    
+
     public GerenciadorRH() {
-        this.funcionarios = new ArrayList<>();
+        funcionarios = new ArrayList<>();
     }
-    
-    // Cadastrar funcionário
+
+    // Cadastrar funcionário (qualquer tipo)
     public void cadastrarFuncionario(Funcionario funcionario) {
         funcionarios.add(funcionario);
-        System.out.println("✓ Funcionário cadastrado com sucesso!");
+        System.out.println("✔ Funcionário cadastrado com sucesso!");
     }
-    
+
     // Listar todos os funcionários
     public void listarFuncionarios() {
         if (funcionarios.isEmpty()) {
             System.out.println("Nenhum funcionário cadastrado.");
             return;
         }
-        
-        System.out.println("\n===== LISTA DE FUNCIONÁRIOS =====");
+
+        System.out.println("\n====== FOLHA DE PAGAMENTO ======");
         for (int i = 0; i < funcionarios.size(); i++) {
             System.out.println((i + 1) + ". " + funcionarios.get(i));
         }
-        System.out.println("=================================\n");
+        System.out.println("================================");
+        System.out.printf("CUSTO TOTAL DA FOLHA: R$ %.2f%n", calcularFolhaTotal());
+        System.out.println("================================\n");
     }
-    
-    // Buscar por CPF (opcional, mas útil)
+
+    // Buscar por CPF
     public Funcionario buscarPorCPF(String cpf) {
         for (Funcionario f : funcionarios) {
             if (f.getCpf().equals(cpf)) {
@@ -38,16 +41,12 @@ public class GerenciadorRH {
         }
         return null;
     }
-    
-    // Calcular folha total (opcional)
+
+    // Calcular folha total usando polimorfismo
     public double calcularFolhaTotal() {
         double total = 0;
         for (Funcionario f : funcionarios) {
-            if (f instanceof FuncionarioAssalariado) {
-                total += ((FuncionarioAssalariado) f).calcularSalario();
-            } else if (f instanceof FuncionarioHorista) {
-                total += ((FuncionarioHorista) f).calcularSalario();
-            }
+            total += f.calcularPagamento(); // polimorfismo: Java chama o método certo de cada tipo
         }
         return total;
     }

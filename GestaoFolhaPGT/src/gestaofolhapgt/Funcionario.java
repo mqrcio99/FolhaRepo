@@ -12,6 +12,7 @@ public abstract class Funcionario {
         this.salarioBase = salarioBase;
     }
 
+    // Getters
     public String getNome() {
         return nome;
     }
@@ -24,7 +25,7 @@ public abstract class Funcionario {
         return salarioBase;
     }
 
-    // 📤 Setters
+    // Setters
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -37,6 +38,6 @@ public abstract class Funcionario {
         this.salarioBase = salarioBase;
     }
 
+    // Método abstrato — cada subclasse implementa sua própria regra
     public abstract double calcularPagamento();
 }
-
