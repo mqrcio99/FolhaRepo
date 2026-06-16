@@ -1,16 +1,16 @@
-# 💰 Sistema de Gestão de Folha de Pagamento
+# Sistema de Gestão de Folha de Pagamento
 
 Sistema desenvolvido em Java para gerenciamento e processamento de folha de pagamento, com funcionalidades de cálculo de salários, descontos e geração de contracheques.
 
 ---
 
-## 📋 Sobre o Projeto
+## Sobre o Projeto
 
 O **FolhaRepo** é um sistema desktop de gestão de folha de pagamento que permite o controle de funcionários, cálculo automatizado de proventos e descontos, e geração de relatórios de pagamento. Desenvolvido inteiramente em Java, o projeto segue princípios de orientação a objetos para garantir organização e manutenibilidade do código.
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 FolhaRepo/
@@ -24,24 +24,24 @@ FolhaRepo/
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
-- 📌 Cadastro e gerenciamento de funcionários
-- 💵 Cálculo automático de salários e proventos
-- ➖ Aplicação de descontos (INSS, IR, etc.)
-- 📄 Geração de contracheques
-- 📊 Relatórios de folha de pagamento
+-  Cadastro e gerenciamento de funcionários
+-  Cálculo automático de salários e proventos
+-  Aplicação de descontos (INSS, IR, etc.)
+-  Geração de contracheques
+-  Relatórios de folha de pagamento
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Java** — linguagem principal do projeto
 - **POO** — paradigma de orientação a objetos
 
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
 ### Pré-requisitos
 
@@ -63,12 +63,12 @@ FolhaRepo/
 
 ---
 
-## 📄 Licença
+## Licença
 
 Este projeto está licenciado sob a licença **MIT**. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.
 
 ---
 
-## 👤 Autor
+## Autor
 
 Desenvolvido por [mqrcio99](https://github.com/mqrcio99).
