@@ -1,2 +1,4 @@
-/GestaoFolhaPGT/nbproject/private/
-/GestaoFolhaPGT/build/
+target/
+build/
+dist/
+nbproject/private/
