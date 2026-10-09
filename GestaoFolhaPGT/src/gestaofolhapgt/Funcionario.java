@@ -6,20 +6,17 @@ import java.util.Locale;
 public abstract class Funcionario {
 
     private String nome;
-    private String cpf;
-    protected double salarioBase;
+    private final String cpf;
 
     /**
      * Cria um funcionário com dados validados.
      *
      * @param nome nome não vazio
      * @param cpf CPF válido, com ou sem pontuação
-     * @param salarioBase salário-base não negativo
      */
-    public Funcionario(String nome, String cpf, double salarioBase) {
+    public Funcionario(String nome, String cpf) {
         this.nome = validarNome(nome);
         this.cpf = normalizarCpf(cpf);
-        this.salarioBase = validarValorNaoNegativo("Salário-base", salarioBase);
     }
 
     /** @return nome do funcionário */
@@ -32,24 +29,9 @@ public abstract class Funcionario {
         return cpf;
     }
 
-    /** @return salário-base */
-    public double getSalarioBase() {
-        return salarioBase;
-    }
-
     /** Atualiza o nome do funcionário. */
     public void setNome(String nome) {
         this.nome = validarNome(nome);
-    }
-
-    /** Atualiza o CPF após normalização e validação dos dígitos verificadores. */
-    public void setCpf(String cpf) {
-        this.cpf = normalizarCpf(cpf);
-    }
-
-    /** Atualiza o salário-base, rejeitando valores negativos ou não finitos. */
-    public void setSalarioBase(double salarioBase) {
-        this.salarioBase = validarValorNaoNegativo("Salário-base", salarioBase);
     }
 
     /**
@@ -58,6 +40,25 @@ public abstract class Funcionario {
      * @return valor do pagamento
      */
     public abstract double calcularPagamento();
+
+    /** Funcionários com o mesmo CPF representam a mesma identidade. */
+    @Override
+    public final boolean equals(Object outro) {
+        if (this == outro) {
+            return true;
+        }
+        if (!(outro instanceof Funcionario)) {
+            return false;
+        }
+        Funcionario funcionario = (Funcionario) outro;
+        return cpf.equals(funcionario.cpf);
+    }
+
+    /** Mantém o hash consistente com a identidade baseada no CPF. */
+    @Override
+    public final int hashCode() {
+        return cpf.hashCode();
+    }
 
     /** Normaliza e valida um CPF brasileiro. */
     static String normalizarCpf(String cpf) {
