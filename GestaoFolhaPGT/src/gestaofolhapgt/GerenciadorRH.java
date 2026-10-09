@@ -1,52 +1,70 @@
 package gestaofolhapgt;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+/** Gerencia o cadastro e os cálculos dos funcionários. */
 public class GerenciadorRH {
 
-    private ArrayList<Funcionario> funcionarios;
+    private final List<Funcionario> funcionarios;
 
+    /** Cria um gerenciador sem funcionários cadastrados. */
     public GerenciadorRH() {
         funcionarios = new ArrayList<>();
     }
 
-    // Cadastrar funcionário (qualquer tipo)
+    /**
+     * Cadastra um funcionário se seu CPF ainda não estiver registrado.
+     *
+     * @param funcionario funcionário a cadastrar
+     * @throws IllegalArgumentException se o funcionário for nulo ou tiver CPF duplicado
+     */
     public void cadastrarFuncionario(Funcionario funcionario) {
+        if (funcionario == null) {
+            throw new IllegalArgumentException("Funcionário não pode ser nulo.");
+        }
+        if (buscarPorCPF(funcionario.getCpf()) != null) {
+            throw new IllegalArgumentException("Já existe funcionário cadastrado com esse CPF.");
+        }
         funcionarios.add(funcionario);
-        System.out.println("✔ Funcionário cadastrado com sucesso!");
     }
 
-    // Listar todos os funcionários
-    public void listarFuncionarios() {
-        if (funcionarios.isEmpty()) {
-            System.out.println("Nenhum funcionário cadastrado.");
-            return;
-        }
-
-        System.out.println("\n====== FOLHA DE PAGAMENTO ======");
-        for (int i = 0; i < funcionarios.size(); i++) {
-            System.out.println((i + 1) + ". " + funcionarios.get(i));
-        }
-        System.out.println("================================");
-        System.out.printf("CUSTO TOTAL DA FOLHA: R$ %.2f%n", calcularFolhaTotal());
-        System.out.println("================================\n");
+    /**
+     * Retorna uma cópia não modificável dos funcionários cadastrados.
+     *
+     * @return lista imutável com os funcionários
+     */
+    public List<Funcionario> listarFuncionarios() {
+        return Collections.unmodifiableList(new ArrayList<>(funcionarios));
     }
 
-    // Buscar por CPF
+    /**
+     * Busca um funcionário por CPF, aceitando CPF com ou sem pontuação.
+     *
+     * @param cpf CPF válido
+     * @return funcionário encontrado ou {@code null} quando não houver correspondência
+     * @throws IllegalArgumentException se o CPF for inválido
+     */
     public Funcionario buscarPorCPF(String cpf) {
-        for (Funcionario f : funcionarios) {
-            if (f.getCpf().equals(cpf)) {
-                return f;
+        String cpfNormalizado = Funcionario.normalizarCpf(cpf);
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionario.getCpf().equals(cpfNormalizado)) {
+                return funcionario;
             }
         }
         return null;
     }
 
-    // Calcular folha total usando polimorfismo
+    /**
+     * Soma os pagamentos dos funcionários cadastrados.
+     *
+     * @return custo total da folha
+     */
     public double calcularFolhaTotal() {
         double total = 0;
-        for (Funcionario f : funcionarios) {
-            total += f.calcularPagamento(); // polimorfismo: Java chama o método certo de cada tipo
+        for (Funcionario funcionario : funcionarios) {
+            total += funcionario.calcularPagamento();
         }
         return total;
     }
