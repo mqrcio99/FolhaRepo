@@ -16,7 +16,7 @@ public class FuncionarioHorista extends Funcionario {
      * @param valorHora valor por hora não negativo
      */
     public FuncionarioHorista(String nome, String cpf, double valorHora) {
-        super(nome, cpf, 0);
+        super(nome, cpf);
         this.valorHora = validarValorNaoNegativo("Valor por hora", valorHora);
     }
 

@@ -5,6 +5,7 @@ import java.util.Locale;
 /** Funcionário remunerado por salário-base e bônus. */
 public class FuncionarioAssalariado extends Funcionario {
 
+    private double salarioBase;
     private double bonus;
 
     /**
@@ -16,8 +17,19 @@ public class FuncionarioAssalariado extends Funcionario {
      * @param bonus bônus não negativo
      */
     public FuncionarioAssalariado(String nome, String cpf, double salarioBase, double bonus) {
-        super(nome, cpf, salarioBase);
+        super(nome, cpf);
+        this.salarioBase = validarValorNaoNegativo("Salário-base", salarioBase);
         this.bonus = validarValorNaoNegativo("Bônus", bonus);
+    }
+
+    /** @return salário-base do funcionário */
+    public double getSalarioBase() {
+        return salarioBase;
+    }
+
+    /** Atualiza o salário-base, rejeitando valores negativos ou não finitos. */
+    public void setSalarioBase(double salarioBase) {
+        this.salarioBase = validarValorNaoNegativo("Salário-base", salarioBase);
     }
 
     /** @return bônus do funcionário */
@@ -33,7 +45,7 @@ public class FuncionarioAssalariado extends Funcionario {
     /** {@inheritDoc} */
     @Override
     public double calcularPagamento() {
-        return getSalarioBase() + bonus;
+        return salarioBase + bonus;
     }
 
     /** {@inheritDoc} */
@@ -42,7 +54,7 @@ public class FuncionarioAssalariado extends Funcionario {
         Locale locale = Locale.forLanguageTag("pt-BR");
         return "Assalariado: " + getNome() +
                " | CPF: " + getCpf() +
-               " | Salário Base: R$ " + String.format(locale, "%.2f", getSalarioBase()) +
+               " | Salário Base: R$ " + String.format(locale, "%.2f", salarioBase) +
                " | Bônus: R$ " + String.format(locale, "%.2f", bonus) +
                " | Total: R$ " + String.format(locale, "%.2f", calcularPagamento());
     }
