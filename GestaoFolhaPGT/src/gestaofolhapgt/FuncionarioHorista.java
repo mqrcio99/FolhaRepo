@@ -35,11 +35,6 @@ public class FuncionarioHorista extends Funcionario {
     }
 
     @Override
-<<<<<<< HEAD
-    public double calcularPagamento() {
-        return horasTrabalhadas * valorHora;
-}
-=======
     public String toString() {
         return "Horista: " + getNome() +
                " | CPF: " + getCpf() +
@@ -47,5 +42,4 @@ public class FuncionarioHorista extends Funcionario {
                " | Valor/hora: R$ " + String.format("%.2f", valorHora) +
                " | Total: R$ " + String.format("%.2f", calcularPagamento());
     }
->>>>>>> feature-heranca
 }

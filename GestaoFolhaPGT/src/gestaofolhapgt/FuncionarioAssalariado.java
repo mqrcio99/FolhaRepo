@@ -25,11 +25,6 @@ public class FuncionarioAssalariado extends Funcionario {
     }
 
     @Override
-<<<<<<< HEAD
-    public double calcularPagamento() {
-        return getSalarioBase();
-}
-=======
     public String toString() {
         return "Assalariado: " + getNome() +
                " | CPF: " + getCpf() +
@@ -37,5 +32,4 @@ public class FuncionarioAssalariado extends Funcionario {
                " | Bônus: R$ " + String.format("%.2f", bonus) +
                " | Total: R$ " + String.format("%.2f", calcularPagamento());
     }
->>>>>>> feature-heranca
 }
