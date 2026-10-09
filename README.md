@@ -58,31 +58,24 @@ Abra a pasta `GestaoFolhaPGT` como projeto existente no NetBeans e execute o pro
 
 ## Exemplo de sessão
 
-Sessão executada com dois funcionários fictícios. Os CPFs abaixo são exemplos com dígitos verificadores válidos.
+A sessão abaixo foi executada com dois funcionários e CPFs fictícios com dígitos verificadores válidos. Os menus são omitidos na saída resumida.
+
+```bash
+printf '1\nAna Assalariada\n00000000191\n3000,00\n500,00\n2\nBruno Horista\n00000000272\n20,00\n100\n3\n4\n0\n' \
+  | java -jar target/gestao-folha-pgt-1.0-SNAPSHOT.jar
+```
+
+Saída relevante capturada nessa execução:
 
 ```text
-1. Cadastrar funcionário assalariado
-Nome: Ana Assalariada
-CPF: 00000000191
-Salário base: R$ 3000,00
-Bônus: R$ 500,00
 Funcionário cadastrado com sucesso.
-
-2. Cadastrar funcionário horista
-Nome: Bruno Horista
-CPF: 00000000272
-Valor por hora: R$ 20,00
-Horas trabalhadas: 100
 Funcionário cadastrado com sucesso.
-
-3. Listar funcionários
 ====== FOLHA DE PAGAMENTO ======
 1. Assalariado: Ana Assalariada | CPF: 00000000191 | Salário Base: R$ 3000,00 | Bônus: R$ 500,00 | Total: R$ 3500,00
 2. Horista: Bruno Horista | CPF: 00000000272 | Horas: 100 | Valor/hora: R$ 20,00 | Total: R$ 2000,00
 CUSTO TOTAL DA FOLHA: R$ 5500,00
-
-4. Exibir custo total da folha
 Total da Folha: R$ 5500,00
+Encerrando...
 ```
 
 ## Organização
@@ -104,6 +97,34 @@ Total da Folha: R$ 5500,00
 `Funcionario` é abstrata e define os dados de identidade e o contrato `calcularPagamento()`. `FuncionarioAssalariado` calcula salário-base mais bônus; `FuncionarioHorista` calcula horas multiplicadas pelo valor por hora. `GerenciadorRH` mantém os funcionários e agrega pagamentos sem escrever no console; `GestaoFolhaPGT` cuida do menu e das mensagens.
 
 A classe abstrata concentra identidade e comportamento comum, enquanto o polimorfismo permite somar pagamentos sem ramificar pelo tipo concreto. Separar o menu do gerenciador permite testar as regras do domínio sem depender da interface de terminal.
+
+```mermaid
+classDiagram
+    class Funcionario {
+        <<abstract>>
+        -String nome
+        -String cpf
+        +calcularPagamento() double*
+    }
+    class FuncionarioAssalariado {
+        -double salarioBase
+        -double bonus
+        +calcularPagamento() double
+    }
+    class FuncionarioHorista {
+        -int horasTrabalhadas
+        -double valorHora
+        +calcularPagamento() double
+    }
+    class GerenciadorRH {
+        -List~Funcionario~ funcionarios
+        +calcularFolhaTotal() double
+    }
+
+    Funcionario <|-- FuncionarioAssalariado
+    Funcionario <|-- FuncionarioHorista
+    GerenciadorRH o-- Funcionario
+```
 
 ## Licença
 
