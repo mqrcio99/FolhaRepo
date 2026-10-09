@@ -1,74 +1,110 @@
-# Sistema de Gestão de Folha de Pagamento
+# FolhaRepo
 
-Sistema desenvolvido em Java para gerenciamento e processamento de folha de pagamento, com funcionalidades de cálculo de salários, descontos e geração de contracheques.
+[![CI](https://github.com/mqrcio99/FolhaRepo/actions/workflows/ci.yml/badge.svg?branch=ci%2Fbuild-e-testes)](https://github.com/mqrcio99/FolhaRepo/actions/workflows/ci.yml)
 
----
+Aplicação de terminal em Java para cadastro de funcionários e cálculo do custo total da folha. O módulo principal é `GestaoFolhaPGT`, com fontes organizadas no pacote `gestaofolhapgt`.
 
-## Sobre o Projeto
+## Funcionalidades implementadas
 
-O **FolhaRepo** é um sistema desktop de gestão de folha de pagamento que permite o controle de funcionários, cálculo automatizado de proventos e descontos, e geração de relatórios de pagamento. Desenvolvido inteiramente em Java, o projeto segue princípios de orientação a objetos para garantir organização e manutenibilidade do código.
+- Cadastro de funcionários assalariados, com salário-base e bônus.
+- Cadastro de funcionários horistas, com valor por hora e horas trabalhadas.
+- Validação e normalização de CPF, com rejeição de CPFs duplicados.
+- Listagem de funcionários e cálculo do custo total da folha.
+- Rejeição de valores negativos e repetição de perguntas quando a entrada numérica é inválida.
 
----
+Os valores monetários ainda usam `double`. O sistema não persiste cadastros entre execuções.
 
-## Estrutura do Projeto
+## Roadmap
 
+Os itens abaixo são planejados e não estão implementados:
+
+- Cálculo de INSS e Imposto de Renda.
+- Geração de contracheques.
+- Relatórios além da listagem atual.
+- Persistência de dados.
+
+## Requisitos
+
+- JDK 11 ou superior.
+- Maven para compilar e executar os testes pela linha de comando.
+- NetBeans é opcional; o projeto Ant permanece em `GestaoFolhaPGT`.
+
+## Compilar e testar
+
+Na raiz do repositório, execute:
+
+```bash
+mvn -B verify
 ```
-FolhaRepo/
-├── FolhaRepo/           # Arquivo principal do projeto
-├── GestaoFolhaPGT/      # Módulo de gestão da folha de pagamento
-│   └── src/             # Código-fonte Java
-├── .gitignore
-├── LICENSE
-└── README.md
+
+O comando compila para Java 11, executa os testes JUnit 5 e empacota o JAR. A última validação local terminou com:
+
+```text
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
 ```
 
----
+## Executar
 
-## Funcionalidades
+Depois de `mvn -B verify`, execute:
 
--  Cadastro e gerenciamento de funcionários
--  Cálculo automático de salários e proventos
--  Aplicação de descontos (INSS, IR, etc.)
--  Geração de contracheques
--  Relatórios de folha de pagamento
+```bash
+java -jar target/gestao-folha-pgt-1.0-SNAPSHOT.jar
+```
 
----
+### NetBeans
 
-## Tecnologias Utilizadas
+Abra a pasta `GestaoFolhaPGT` como projeto existente no NetBeans e execute o projeto. A classe principal configurada é `gestaofolhapgt.GestaoFolhaPGT`; o projeto continua usando o build Ant do NetBeans.
 
-- **Java** — linguagem principal do projeto
-- **POO** — paradigma de orientação a objetos
+## Exemplo de sessão
 
----
+Sessão executada com dois funcionários fictícios. Os CPFs abaixo são exemplos com dígitos verificadores válidos.
 
-## Como Executar
+```text
+1. Cadastrar funcionário assalariado
+Nome: Ana Assalariada
+CPF: 00000000191
+Salário base: R$ 3000,00
+Bônus: R$ 500,00
+Funcionário cadastrado com sucesso.
 
-### Pré-requisitos
+2. Cadastrar funcionário horista
+Nome: Bruno Horista
+CPF: 00000000272
+Valor por hora: R$ 20,00
+Horas trabalhadas: 100
+Funcionário cadastrado com sucesso.
 
-- [JDK 11+](https://www.oracle.com/java/technologies/downloads/) instalado
-- IDE Java (recomendado: [IntelliJ IDEA](https://www.jetbrains.com/idea/) ou [Eclipse](https://www.eclipse.org/))
+3. Listar funcionários
+====== FOLHA DE PAGAMENTO ======
+1. Assalariado: Ana Assalariada | CPF: 00000000191 | Salário Base: R$ 3000,00 | Bônus: R$ 500,00 | Total: R$ 3500,00
+2. Horista: Bruno Horista | CPF: 00000000272 | Horas: 100 | Valor/hora: R$ 20,00 | Total: R$ 2000,00
+CUSTO TOTAL DA FOLHA: R$ 5500,00
 
-### Passos
+4. Exibir custo total da folha
+Total da Folha: R$ 5500,00
+```
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/mqrcio99/FolhaRepo.git
-   ```
+## Organização
 
-2. Abra o projeto na sua IDE preferida.
+```text
+.
+├── .github/workflows/ci.yml
+├── GestaoFolhaPGT/
+│   ├── nbproject/
+│   ├── src/gestaofolhapgt/
+│   └── test/gestaofolhapgt/
+├── pom.xml
+├── README.md
+└── LICENSE
+```
 
-3. Navegue até a pasta `GestaoFolhaPGT` e importe como projeto Java.
+## Modelo e decisões
 
-4. Execute a classe principal (`Main.java` ou equivalente).
+`Funcionario` é abstrata e define os dados de identidade e o contrato `calcularPagamento()`. `FuncionarioAssalariado` calcula salário-base mais bônus; `FuncionarioHorista` calcula horas multiplicadas pelo valor por hora. `GerenciadorRH` mantém os funcionários e agrega pagamentos sem escrever no console; `GestaoFolhaPGT` cuida do menu e das mensagens.
 
----
+A classe abstrata concentra identidade e comportamento comum, enquanto o polimorfismo permite somar pagamentos sem ramificar pelo tipo concreto. Separar o menu do gerenciador permite testar as regras do domínio sem depender da interface de terminal.
 
 ## Licença
 
-Este projeto está licenciado sob a licença **MIT**. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.
-
----
-
-## Autor
-
-Desenvolvido por [mqrcio99](https://github.com/mqrcio99).
+Licença MIT. Consulte [LICENSE](LICENSE).
